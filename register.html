@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Registro</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/jumbotron-narrow.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+
+    <script>
+		function RefrescarComprobarPass(){
+	//			setInterval(ComprobarEmail, 1500);
+				setInterval(Comprobar2Pass, 500);
+			}
+			
+			function Comprobar2Pass(){
+				var password=document.getElementById("password").value;
+				var password2=document.getElementById("password2").value;
+				
+				if(password==password2){
+					document.getElementById("comprobacion2").innerHTML = "<p class=bg-success><b><font color=green>Los Passwords COINCIDEN</font></b></p>";
+					valido2="Si";
+				}else{
+					document.getElementById("comprobacion2").innerHTML = "<p class=bg-danger><b><font color=red>Los Passwords NO COINCIDEN</font></b></p>";
+					valido2="No";
+				}
+				
+				if((valido1=="Si")&&(valido2=="Si")){
+					document.getElementById("btn_regis").disabled=false;
+				}else{
+					document.getElementById("btn_regis").disabled=true;
+				}
+			}
+			
+			function ComprobarEmail() {
+			var correo=document.getElementById("email").value;
+			var patron = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$");
+			var res = patron.test(correo);
+						
+			if(correo!=""){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var comp = parseInt(xmlhttp.responseText);
+						if(comp==0 && res){
+							document.getElementById("correo").innerHTML = "<p class=bg-success><b><font color=green>El email es válido.</font></b></p>";
+							valido1="Si";
+						}else{
+							document.getElementById("correo").innerHTML = "<p class=bg-danger><b><font color=red>Este email ya está siendo usado o su formato es inválido.</font></b></p>";
+							valido1="No";
+						}
+						
+					}
+				}		
+				xmlhttp.open("POST","ComprobarEmail.php",true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.send("correo="+correo);
+			}else{
+				valido1="No";
+				document.getElementById("correo").innerHTML = "<p><b>Rellenar los campos obligatorios</b></p>";
+			}
+		}
+		
+		
+		function RegistrarSocio() {
+			var correo=document.getElementById("email").value;
+			var nick=document.getElementById("nickname").value;
+			var pass=document.getElementById("password").value;
+			var pass2=document.getElementById("password2").value;
+			
+			if((correo!="")&&(nick!="")&&(pass!="")&&(pass2!="")){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//						document.getElementById("comprobacion2").innerHTML = "<p style='text-align:center'><b><font color=red>ERROR al crear el Album</font></b></p>";
+						var msj = parseInt(xmlhttp.responseText);
+						if(msj==1){
+							document.getElementById("comprobacion3").innerHTML = "<div class='alert alert-success'><strong>EXITO!</strong> El usuario se ha registrado con éxito, espera a que el administrador formalice tu alta.</div>";
+						}else{
+							document.getElementById("comprobacion3").innerHTML = "<div class='alert alert-danger'><strong>ERROR!</strong> Fallo al registrarse, inténtalo de nuevo.</div>";
+						}
+						//document.getElementById("comprobacion3").innerHTML =xmlhttp.responseText;
+					}
+				}		
+				xmlhttp.open("POST","registrar.php",true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.send("email="+correo+"&nickname="+nick+"&password="+pass);
+			}else{
+				document.getElementById("comprobacion3").innerHTML = "<div class='alert alert-danger'><strong>Rellenar los campos obligatorios</strong></div>";
+			}
+		}
+			
+	</script>
+  </head>
+  <body>
+    
+	  	<div class="jumbotron" style="background-image: url('images/header.jpg');>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 style="text-align:center"><b>PICBOX</b></h1>
+					<h2 style="text-align:center"><i>"Tus fotos siempre contigo"</i></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	 <div class="container">
+      <h3 style="text-align:center"><b>FORMULARIO DE REGISTRO</b></h3><br>		
+		<p style="text-align:center"><b>Los campos con * son obligatorios.</b></p><br>
+		 <div id="comprobacion3"></div></br>
+	
+		<form class="form-horizontal">
+		  <div class="form-group">
+			<label for="email" class="col-sm-4 control-label">Email *</label>
+			<div class="col-sm-6">
+			  <input class="form-control" name="email" id="email" type="email" placeholder="Correo electrónico" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" onblur="ComprobarEmail()" required/><br>
+			 </div>
+		  </div>
+		  <div class="form-group">
+		   <div class="col-sm-offset-4 col-sm-4" id="correo"></div>
+		   </div>
+		  <div class="form-group">
+			<label for="nickname" class="col-sm-4 control-label">Nickname *</label>
+			<div class="col-sm-6">
+			  <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname" required>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="password" class="col-sm-4 control-label">Password *</label>
+			<div class="col-sm-6">
+			  <input type="password" class="form-control" name="password" id="password" placeholder="Password 6 caracteres mínimo"  pattern="^([a-zA-Z\d]){6,}$" required>
+			</div>
+		  </div>
+		    <div class="form-group">
+			<label for="password2" class="col-sm-4 control-label">Repetir Password *</label>
+			<div class="col-sm-6">
+			  <input type="password" class="form-control" name="password2" id="password2" placeholder="Repite el Password" pattern="^([a-zA-Z\d]){6,}$" onblur="RefrescarComprobarPass()" required >
+			</div>
+		  </div>
+		   <div class="col-sm-offset-4 col-sm-4" id="comprobacion2"></div></br>
+		    <div class="form-group">
+			<div class="col-sm-offset-4 col-sm-4">
+<!--			  <button type="button" class="btn btn-success" onclick="InsertarFoto()">Añadir Foto</button>-->
+				<a href="index.php" class="btn btn-danger" role="button">Volver atrás</a>
+				</div>
+			
+			</div>
+		  <div class="form-group">
+			<div class="col-sm-offset-4 col-sm-4">
+<!--			  <button type="button" class="btn btn-success" onclick="InsertarFoto()">Añadir Foto</button>-->
+				<button type="button" class="btn btn-success" id="btn_regis" onclick="RegistrarSocio()" disabled>Registrarse</button>
+			</div>
+		  </div><br>
+		  
+		</form>
+	</div>
+  
+	
+		
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

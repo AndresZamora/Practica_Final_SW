@@ -32,32 +32,18 @@
 	</div>
 	
 	<div class="container">
-		<div id="main">
-<!--			<div id="content">
-				<span><a href='menu_socio.html'>Menu Socio</a></span>
-				<span><a href='crearAlbum.php'>Crear Album</a></span>
-			</div>-->
-			
+		<div id="main">			
 			<?php
 				if (!isset($_SESSION['conectado'])){
-						echo ("							
-							<h3>Inicio</h3>
-						");
+						echo ("<h3>Inicio</h3>");
 				}else{
 					if($_SESSION['rol']=='Socio'){
 						include ("menu_socio.php");
 					}else if($_SESSION['rol']=='Administrador'){
-						echo ("
-							<span class='right'><p>Usuario Profesor: '".$_SESSION['usuarioactual']."'</p></span>
-							<span class='right'><a href='cerrar.php'>Logout</a></span>
-						");
+						include ("menu_admin.php");
 					}
 				}
-			
-			
 			?>
-			
-
 		</div>
     </div> <!-- /container -->
 	

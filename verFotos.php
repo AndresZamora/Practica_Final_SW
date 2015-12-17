@@ -98,7 +98,6 @@
 				exit;
 			}
 			
-//			$resultado = $enlace->query("SELECT * FROM album WHERE Id_Album = '".$_SESSION['usuarioactual']."'");
 			$resultado = $enlace->query("SELECT * FROM fotos WHERE Id_Album = '".$_SESSION['idAlbum']."'");
 	
 			for ($num_fila = 0; $num_fila <= $resultado->num_rows - 1; $num_fila++) {
@@ -117,17 +116,7 @@
 						<button type='button' class='btn btn-default' role='button' onclick='OperacionInsertar(".$fila['ID'].")'>Etiquetar</button></p>
 					</div></div></div>
 					");
-			}			
-/*					<div class='col-sm-6 col-md-4'>
-						<div class='thumbnail'>
-						  <img src='...' alt='...'>
-						  <div class='caption'>
-							<h3>ALBUM ".$fila['ID']."</h3>
-							<p><b>Nombre:</b> ".$fila['Nombre']."</p>
-							<p><a href='#' class='btn btn-primary' role='button'>Button</a> <a href='#' class='btn btn-default' role='button'>Button</a></p>
-						  </div>
-						</div>
-					</div>*/			
+			}		
 			
 			mysqli_close($enlace);
 		?>

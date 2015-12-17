@@ -45,7 +45,7 @@
 										<input type='password' class='form-control' name='password' id='password' placeholder='Password' required>
 									</div>
 									<button type='submit' class='btn btn-success'>Conectarse</button>
-									<a href='#' class='btn btn-primary' role='button'>Registrarse</a>
+									<a href='register.html' class='btn btn-primary' role='button'>Registrarse</a>
 								</form>
 							");
 					}else{
@@ -53,7 +53,7 @@
 							echo ("
 								<form class='navbar-form navbar-left' role='search'>
 								<div class='form-group'>
-								<p>Usuario: '".$_SESSION['usuarioactual']."'</p>
+								<p><b>Usuario Socio:</b> ".$_SESSION['usuarioactual']."</p>
 								</div>
 								<div class='form-group'>
 								<a href='cerrar.php' class='btn btn-danger' role='button'>Logout</a>
@@ -62,8 +62,14 @@
 							");
 						}else if($_SESSION['rol']=='Administrador'){
 							echo ("
-								<span class='right'><p>Usuario Profesor: '".$_SESSION['usuarioactual']."'</p></span>
-								<span class='right'><a href='cerrar.php'>Logout</a></span>
+								<form class='navbar-form navbar-left' role='search'>
+								<div class='form-group'>
+								<p><b>Usuario Profesor:</b> '".$_SESSION['usuarioactual']."'</p>
+								</div>
+								<div class='form-group'>
+								<a href='cerrar.php' class='btn btn-danger' role='button'>Logout</a>
+								</div>
+								</form>
 							");
 						}
 					}
