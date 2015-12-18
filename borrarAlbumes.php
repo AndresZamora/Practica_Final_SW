@@ -21,26 +21,26 @@
     <script src="js/bootstrap.min.js"></script>
 	
 	<script>
-		function ObtenerTodasFotos() {
+		function ObtenerTodasAlbumes() {
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					document.getElementById("tabla").innerHTML = xmlhttp.responseText;
 				}
 			}
-			xmlhttp.open("GET","verFotosTodas.php",true);
+			xmlhttp.open("GET","verAlbumesTodos.php",true);
 			xmlhttp.send();
 		}
 		
-		function BorrarFotos(x){
-			var idFoto= x;
-			var operacion= 'BorrarFoto';
+		function BorrarAlbumes(x){
+			var idAlbum= x;
+			var operacion= 'BorrarAlbum';
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function() {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {					
 					if(xmlhttp.responseText.toString().search("EXITO")!=-1){
-						ObtenerTodasFotos();
-						document.getElementById("comprobacion2").innerHTML = "<div class='alert alert-success'><p style='text-align:center'><strong>EXITO!</strong> Se ha borrado la foto.</p></div>";
+						ObtenerTodasAlbumes();
+						document.getElementById("comprobacion2").innerHTML = "<div class='alert alert-success'><p style='text-align:center'><strong>EXITO!</strong> Se ha borrado el album.</p></div>";
 					}else{
 						document.getElementById("comprobacion2").innerHTML = "<div class='alert alert-danger'><strong>ERROR!</strong> ha ocurrido un error.</div>";
 					}
@@ -48,12 +48,12 @@
 			}		
 			xmlhttp.open("POST","borrarFotosAlbumesBD.php",true);
 			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xmlhttp.send("operacion="+operacion+"&idFoto="+idFoto);
+			xmlhttp.send("operacion="+operacion+"&idAlbum="+idAlbum);
 		}
 	
 	</script>	
   </head>
-  <body onload="ObtenerTodasFotos()">
+  <body onload="ObtenerTodasAlbumes()">
 	<?php
 		include ("cabecera.php");
 	?>
@@ -72,10 +72,10 @@
 	<div class="container">
 		<ol class="breadcrumb">
 		  <li><a href="menu_Admin.php">Menu Administrador</a></li>
-		  <li class="active">Borrar Fotos</li>
+		  <li class="active">Borrar Albumes</li>
 		</ol>
 		
-		<h3 style="text-align:center"><b>BORRAR FOTOS</b></h3><br>		
+		<h3 style="text-align:center"><b>BORRAR ALBUMES</b></h3><br>		
 		<div id="comprobacion2"></div></br>
 
 		<div id="tabla" class='table-responsive'></div>

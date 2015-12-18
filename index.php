@@ -35,7 +35,12 @@
 		<div id="main">			
 			<?php
 				if (!isset($_SESSION['conectado'])){
-						echo ("<h3>Inicio</h3>");
+						echo ("
+							<div>
+								<h3 style='text-align:center'><b>INICIO</b></h3></br>
+								<p><a href='mostrarFotos.php' class='btn btn-primary' role='button'>Mostrar Fotos Socios</a></p></br>
+							</div>
+						");
 				}else{
 					if($_SESSION['rol']=='Socio'){
 						include ("menu_socio.php");
@@ -46,10 +51,6 @@
 			?>
 		</div>
     </div> <!-- /container -->
-	
-	<footer>
-		<p>2015-2016</p>
-	</footer>
 
   </body>
 </html>

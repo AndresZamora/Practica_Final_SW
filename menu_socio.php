@@ -10,8 +10,8 @@
 		
 		<div class='btn-group' role='group' aria-label='...'>
 			<a href='crearAlbum.php' class='btn btn-info' role='button'>Crear Album</a>
-			<a href='gestionAlbumes.php' class='btn btn-info' role='button'>Gestionar Albumes</a>
-			<button type='button' class='btn btn-default'>Right</button>
+			<a href='gestionAlbumes.php' class='btn btn-warning' role='button'>Gestionar Albumes</a>
+			<a href='mostrarFotos.php' class='btn btn-primary' role='button'>Mostrar Fotos Socios</a></br>
 		</div><br><br>
 	");
 ?>

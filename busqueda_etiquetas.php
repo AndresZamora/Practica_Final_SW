@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	include ("seguridad.php");
 	if($_SESSION['rol']!='Socio'){
 		header('location:index.php');
@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ver Fotos</title>
+    <title>Buscar Fotos por Etiquetas</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
@@ -95,60 +95,63 @@
 		  <li class="active">Ver Fotos</li>
 		</ol>
 		
-		<h3 style="text-align:center"><b>VER FOTOS</b></h3><br>		
+		<h3 style="text-align:center"><b>BUSCAR FOTOS POR ETIQUETA</b></h3><br>		
 		<div id="comprobacion2"></div></br>
 		
-		<?php
+		<?php	
 			$enlace = mysqli_connect("localhost", "root", "", "picbox");   //Conexion con la base de datos en local.
 		//	$enlace = mysqli_connect("mysql.hostinger.es", "u465939494_root", "quizes", "u465939494_quiz");		// Conexión con la base de datos en Hostinger.
 			
 			mysqli_set_charset($enlace, "utf8");
-			
+
 			if (!$enlace) {
 				echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
 				echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
 				echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
 				exit;
 			}
-			
-			$resultado = $enlace->query("SELECT * FROM fotos WHERE Id_Album = '".$_SESSION['idAlbum']."'");
-			
+						
+		/*	$resultado = $enlace->query("SELECT * FROM fotos WHERE (Visibilidad='publica' OR Visibilidad='accesoLimitado') AND (Etiqueta='".$_GET['et']."' OR Etiqueta2='".$_GET['et']."' OR Etiqueta3='".$_GET['et']."')");
+	
 			for ($num_fila = 0; $num_fila <= $resultado->num_rows - 1; $num_fila++) {
 				$resultado->data_seek($num_fila);
 				$fila = $resultado->fetch_assoc();		
 				
-				if ($fila['Etiqueta']==""){
-					echo("
-					<div class='col-sm-6 col-md-3'>
-					<div class='thumbnail'>
-						<img src='data:image/;base64,".base64_encode($fila['Imagen'])."' width='304' height='236'>
-<!--					<img src='images/carpeta.png' alt='Album'>-->
-					<div class='caption'>
-						<p><b>ALBUM ".$fila['Id_Album']."</b></p>
-						<p><b>FOTO ".$fila['ID']."</b></p>
-						<p><b>Descripcion:</b> ".$fila['Descripcion']."</p>
-						<p><b>Etiquetas:</b>Esta foto no tiene etiquetas.</p>
-						<p><button type='button' class='btn btn-default' role='button' onclick='ObtenerIdFoto(".$fila['ID'].")'>Etiquetar</button></p>
-					</div></div></div>
-					");
-				}else{
 				echo("
+				
 					<div class='col-sm-6 col-md-3'>
 					<div class='thumbnail'>
 						<img src='data:image/;base64,".base64_encode($fila['Imagen'])."' width='304' height='236'>
 <!--					<img src='images/carpeta.png' alt='Album'>-->
-					<div class='caption'>
-						<p><b>ALBUM ".$fila['Id_Album']."</b></p>
-						<p><b>FOTO ".$fila['ID']."</b></p>
-						<p><b>Descripcion:</b> ".$fila['Descripcion']."</p>
-						<p><b>Etiquetas:</b> <a href='busqueda_etiquetas.php?et=".$fila['Etiqueta']."'>".$fila['Etiqueta']."</a>,<a href='busqueda_etiquetas.php?et=".$fila['Etiqueta2']."'>".$fila['Etiqueta2']."</a>,<a href='busqueda_etiquetas.php?et=".$fila['Etiqueta3']."'>".$fila['Etiqueta3']."</a></p>
-						<p><button type='button' class='btn btn-default' role='button' onclick='ObtenerIdFoto(".$fila['ID'].")'>Etiquetar</button></p>
-					</div></div></div>
+					</div></div>
 					");
-				}
-			}		
+				
+			}*/		
 			
-			mysqli_close($enlace);			
+				
+			$resultado = $enlace->query("SELECT *
+				FROM album
+				INNER JOIN fotos
+				ON album.ID=fotos.Id_Album	
+				WHERE ((fotos.Visibilidad='publica' OR fotos.Visibilidad='accesoLimitado') AND (fotos.Etiqueta='".$_GET['et']."' OR fotos.Etiqueta2='".$_GET['et']."' OR fotos.Etiqueta3='".$_GET['et']."'))
+				OR ((album.Email='".$_SESSION['usuarioactual']."' AND fotos.Visibilidad='privada' AND (fotos.Etiqueta='".$_GET['et']."' OR fotos.Etiqueta2='".$_GET['et']."' OR fotos.Etiqueta3='".$_GET['et']."')))");
+	
+			for ($num_fila = 0; $num_fila <= $resultado->num_rows - 1; $num_fila++) {
+				$resultado->data_seek($num_fila);
+				$fila = $resultado->fetch_assoc();		
+				
+				echo("
+				
+					<div class='col-sm-6 col-md-3'>
+					<div class='thumbnail'>
+						<img src='data:image/;base64,".base64_encode($fila['Imagen'])."' width='304' height='236'>
+<!--					<img src='images/carpeta.png' alt='Album'>-->
+					</div></div>
+					");
+				
+			}	
+			
+			mysqli_close($enlace);
 		?>
 		
 		

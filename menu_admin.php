@@ -8,8 +8,9 @@
 		
 		<div class='btn-group' role='group' aria-label='...'>
 			<a href='darAltaSocios.php' class='btn btn-info' role='button'>Gestión Altas/Bajas Socios</a>
-			<a href='borrarAlbumes.php' class='btn btn-info' role='button'>Borrar Albumes</a>
-			<a href='borrarFotos.php' class='btn btn-info' role='button'>Borrar Fotos</a>
+			<a href='borrarAlbumes.php' class='btn btn-warning' role='button'>Borrar Albumes</a>
+			<a href='borrarFotos.php' class='btn btn-success' role='button'>Borrar Fotos</a>
+			<a href='mostrarFotos.php' class='btn btn-primary' role='button'>Mostrar Fotos Socios</a>
 		</div><br><br>
 	");
 ?>

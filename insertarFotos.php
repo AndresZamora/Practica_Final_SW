@@ -25,36 +25,6 @@
 		$(function () {
 		  $('[data-toggle="tooltip"]').tooltip()
 		})
-	
-		function InsertarFoto() {
-			var descripcion=document.getElementById("descripcion").value;
-			var visibilidad=document.getElementById("visibilidad").value;
-			var imagen=document.getElementById("imagen").value;
-			var etiqueta=document.getElementById("etiqueta").value;
-			
-			if((descripcion!="")&&(visibilidad!="")&&(imagen!="")){
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.onreadystatechange = function() {
-					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-						document.getElementById("comprobacion2").innerHTML = xmlhttp.responseText;
-/*						if(xmlhttp.responseText.toString().search("EXITO")!=-1){
-							document.getElementById("comprobacion2").innerHTML = "<p style='text-align:center'><b><font color=green>Insertada la foto con EXITO</font></b></p>";
-						}else{
-							document.getElementById("comprobacion2").innerHTML = "<p style='text-align:center'><b><font color=red>ERROR al insertar la foto</font></b></p>";
-						}*/
-					}
-				}		
-				xmlhttp.open("POST","insertarFotosBD.php",true);
-				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				if((etiqueta!="")){
-					xmlhttp.send("descripcion="+descripcion+"&visibilidad="+visibilidad+"&imagen="+imagen+"&etiqueta="+etiqueta);
-				}else{
-					xmlhttp.send("descripcion="+descripcion+"&visibilidad="+visibilidad+"&imagen="+imagen);
-				}
-			}else{
-				document.getElementById("comprobacion2").innerHTML = "<p style='text-align:center'><b>Rellenar los campos obligatorios</b></p>";
-			}
-		}
 		
 		$(document).ready(function(){
 			function elegir_imagen(evt) {
@@ -64,7 +34,7 @@
              
 				reader.onload = (function(theFile) {
 					return function(e) {
-						document.getElementById("im").innerHTML = ['<img src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+						document.getElementById("im").innerHTML = ["<div class='thumbnail'><img src='", e.target.result,"' title='", escape(theFile.name), "'/></div>"].join('');
 					};
 				})(f);             
 				reader.readAsDataURL(f);
@@ -111,7 +81,7 @@
 		  <div class="form-group">
 			<label for="descripcion" class="col-sm-4 control-label">Descripción *</label>
 			<div class="col-sm-4">
-			  <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripción de la foto" data-toggle="tooltip" data-placement="right" title="Tooltip on right" required>
+			  <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripción de la foto" required>
 			</div>
 		  </div>
 		  <div class="form-group">
@@ -122,12 +92,6 @@
 				<option value="accesoLimitado">Acceso Limitado</option>
 				<option value="publica">Pública</option>
 			  </select>
-			</div>
-		  </div>
-		  <div class="form-group">
-			<label for="etiqueta" class="col-sm-4 control-label">Etiquetar</label>
-			<div class="col-sm-4">
-			  <input type="text" class="form-control" name="etiqueta" id="etiqueta" placeholder="Etiqueta de la foto" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
 			</div>
 		  </div>
 		  <div class="form-group">
